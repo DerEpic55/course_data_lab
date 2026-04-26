@@ -1,5 +1,6 @@
 /* 
-	Реализовать функцию calculateOrderTotal(xmlDoc), которая принимает XML-документ xmlDoc и возвращает общую стоимость заказа.
+	Реализовать функцию calculateOrderTotal(xmlDoc), которая принимает 
+  XML-документ xmlDoc и возвращает общую стоимость заказа.
 
 	Пример XML:
 <order id="123">
@@ -21,5 +22,13 @@ export interface OrderWithPrices {
 }
 
 export function calculateOrderTotal(xmlDoc: Document): number {
+  let sum : number = 0;  
+  const item = xmlDoc.getElementsByTagName("item");
 
+    for(let i = 0; i < item.length; i++){
+        let price : number = Number(item[i].getAttribute("price")?.toString()) * Number(item[i].getAttribute("quantity")?.toString());
+        sum += price;
+    }
+
+    return sum;
 }
