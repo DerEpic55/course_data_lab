@@ -30,5 +30,13 @@ export interface OrderItem {
 }
 
 export function findOrdersByStatus(xmlDoc: Document, status: string): Element[] {
-
+  const orders = xmlDoc.getElementsByTagName("order");
+  const result : Element[] = [];
+  for (let i = 0; i < orders.length; i++) {
+    if (orders[i].getAttribute("status") === status) {
+      result.push(orders[i]);
+    }
+  }
+  
+  return result;
 }
