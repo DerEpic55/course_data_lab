@@ -1,5 +1,7 @@
 /* 	
-	Напишите функцию findProductsInCategory(xmlDoc, categoryName), которая принимает в качестве аргументов XML-документ xmlDoc и название категории categoryName. Функция должна возвращать массив продуктов в данной категории.
+	Напишите функцию findProductsInCategory(xmlDoc, categoryName), которая принимает в качестве 
+  аргументов XML-документ xmlDoc и название категории categoryName. 
+  Функция должна возвращать массив продуктов в данной категории.
 
 	Пример XML:
 <categories>
@@ -32,5 +34,17 @@ export function findProductsInCategory(
   xmlDoc: Document,
   categoryName: string
 ): Element[] {
-
+  // Находим все теги <category>
+  const categories = xmlDoc.getElementsByTagName("category");
+  
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    
+    if (category.getAttribute("name") === categoryName) {
+      const products = category.getElementsByTagName("product");
+      return Array.from(products);
+    }
+  }
+  
+  return [];
 }
