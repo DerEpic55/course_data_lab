@@ -1,5 +1,7 @@
 /* 
-	Реализовать функцию findUsersWithRole, которая принимает XML-документ xmlDoc и строку targetRole, которая представляет роль пользователя. Функция должна возвращать массив пользователей с заданной ролью.
+	Реализовать функцию findUsersWithRole, которая принимает XML-документ 
+  xmlDoc и строку targetRole, которая представляет роль пользователя. 
+  Функция должна возвращать массив пользователей с заданной ролью.
 
 	Пример XML:
 <users>
@@ -35,4 +37,17 @@ export interface UserWithRole {
 }
 
 export function findUsersWithRole(xmlDoc: Document, targetRole: string): Element[] {
+  let result : Element[] = [];
+
+  const users = xmlDoc.getElementsByTagName("user");
+  for(let i = 0; i < users.length; i++){
+      let role = users[i].getElementsByTagName("role");
+      for(let j = 0; j < role.length; j++){
+        if(role[j].textContent === targetRole){
+            result.push(users[i]);
+        }
+      }   
+  }
+
+  return result;
 }
