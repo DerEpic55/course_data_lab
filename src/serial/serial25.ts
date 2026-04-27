@@ -3,7 +3,7 @@
 	Пример XML в файле saxXML.ts
 */
 
-import { SAXParser } from "sax";
+import { SAXParser, type QualifiedTag } from 'sax';
 
 // Исходный код
 export function countBooks(xml: string): number {
@@ -12,7 +12,11 @@ export function countBooks(xml: string): number {
 
   // TODO: Добавьте обработчик события открытия тега
   // Если имя тега - 'book', увеличивайте count
-  
+  parser.onopentag = (node: QualifiedTag) => {
+    if(node.name === 'book'){
+      count++;
+    }
+  };
   parser.write(xml).close();
   return count;
 }
