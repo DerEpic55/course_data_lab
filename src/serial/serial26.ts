@@ -10,7 +10,7 @@ export function collectBookIds(xml: string): string[] {
   const parser = new sax.SAXParser(true);
   const ids: string[] = [];
   // TODO: При открытии тега 'book' добавляйте значение атрибута 'id' в массив ids
-   parser.onopentag = (node) => {
+   parser.onopentag = (node : sax.QualifiedTag) => {
     if (node.name === 'book') {
       const bookId = node.attributes['id'];
       if (bookId) {
