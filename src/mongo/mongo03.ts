@@ -13,5 +13,5 @@ export class Task {
 
 export async function complete_task(db: Db, taskDescription: string) {
     // TODO: Найти задачу по описанию и установить completed = true
-	await db.collection("tasks")
+	await db.collection("tasks").updateMany({description: taskDescription}, {$set: {completed: true}});
 }
