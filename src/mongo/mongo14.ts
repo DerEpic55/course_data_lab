@@ -13,5 +13,8 @@ export class Project {
 
 export async function remove_member_from_project(db: Db, projectName: string, memberToRemove: string) {
 	// TODO: Удалить указанного участника из команды проекта
-	db.collection("projects")
+	db.collection<Project>("projects").updateOne(
+		{name: projectName},
+		{ $pull: {team: memberToRemove}}
+	);
 }
