@@ -56,7 +56,15 @@ export async function get_customer_analytics(db: Db): Promise<CustomerAnalytics[
 		},
 		{
 			$addFields: {
-
+				totalSpent: { $sum: "$customerOrders.amount" },
+                orderCount: { $size: "$customerOrders" },
+                avgOrderValue: {
+                    $cond: [
+                        { $gt: [{ $size: "$customerOrders" }, 0] },
+                        { $avg: "$customerOrders.amount" },
+                        0
+                    ]
+                }
 			}
 		},
 		{
