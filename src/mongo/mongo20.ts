@@ -19,7 +19,22 @@ export interface PopularTag {
 
 export async function get_popular_tags(db: Db): Promise<PopularTag[]> {
     // TODO: Найти самые популярные теги (по количеству постов и общему количеству просмотров)
-    return await db.collection("posts").aggregate([
-
+    return await db.collection<BlogPost>("posts").aggregate([
+        {
+            $unwind: "$tags"
+        },
+        {
+            $group: {
+                _id: "$tags",
+                postCount: {$sum: 1},
+                totalViews: {$sum: "$views"}
+            }
+        },
+        {
+            $sort: {
+                totalViews: -1,
+                postCount: -1
+            }
+        }
     ]).toArray() as PopularTag[]
 }
