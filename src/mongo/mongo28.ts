@@ -24,7 +24,18 @@ export interface SearchResult {
 
 export async function search_articles(db: Db, searchText: string): Promise<SearchResult[]> {
 	// TODO: Найти статьи по текстовому поиску и отсортировать по релевантности
+	await db.collection("articles").createIndex({ title: "text", content: "text" });
 	return await db.collection("articles").aggregate([
-
+        {
+            $match: { $text: { $search: searchText } }
+        },
+        {
+            $addFields: {
+                score: { $meta: "textScore" }
+            }
+        },
+        {
+            $sort: { score: { $meta: "textScore" } }
+        }
 	]).toArray() as SearchResult[]
 }
